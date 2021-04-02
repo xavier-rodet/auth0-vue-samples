@@ -11,6 +11,7 @@ RUN mkdir /app
 
 WORKDIR /app
 
+COPY vue.config.js .
 COPY package.json .
 
 RUN npm install
