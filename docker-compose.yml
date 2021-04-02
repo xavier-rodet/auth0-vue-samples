@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  auth0-vue-samples:
+    build:
+      context: .
+      args:
+        - OIDC_DOMAIN=xxxxxxx.auth0.com
+        - OIDC_CLIENT_ID=xxxxxxxxx
+    ports:
+      - 3000:3000

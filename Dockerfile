@@ -13,6 +13,10 @@ RUN npm install
 
 COPY . .
 
+ARG OIDC_DOMAIN
+ARG OIDC_CLIENT_ID
+RUN ./setup-oidc.sh
+
 RUN npm run build
 
 # ---------------
@@ -25,6 +29,7 @@ WORKDIR /app
 
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/package.json .
+COPY --from=build /app/auth_config.json .
 COPY --from=build /app/web-server.js .
 
 ENV NODE_ENV production
