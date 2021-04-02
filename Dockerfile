@@ -1,8 +1,12 @@
+FROM node:10-alpine as build
+
 ARG OIDC_DOMAIN
 ARG OIDC_CLIENT_ID
 ARG BASE_URL=/
 
-FROM node:10-alpine as build
+ENV OIDC_DOMAIN=$OIDC_DOMAIN
+ENV OIDC_CLIENT_ID=$OIDC_CLIENT_ID
+ENV BASE_URL=$BASE_URL
 
 RUN apk update && apk upgrade && \
   apk add --no-cache bash git openssh
@@ -11,7 +15,6 @@ RUN mkdir /app
 
 WORKDIR /app
 
-COPY vue.config.js .
 COPY package.json .
 
 RUN npm install
@@ -26,16 +29,20 @@ RUN npm run build
 
 FROM node:10-alpine
 
+ARG BASE_URL=/
+
+ENV NODE_ENV production
+ENV BASE_URL=$BASE_URL
+
 RUN mkdir -p /app/dist
 
 WORKDIR /app
 
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/package.json .
+COPY --from=build /app/vue.config.js .
 COPY --from=build /app/auth_config.json .
 COPY --from=build /app/web-server.js .
-
-ENV NODE_ENV production
 
 RUN npm install --production
 
