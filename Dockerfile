@@ -1,3 +1,7 @@
+ARG OIDC_DOMAIN
+ARG OIDC_CLIENT_ID
+ARG BASE_URL=/
+
 FROM node:10-alpine as build
 
 RUN apk update && apk upgrade && \
@@ -13,8 +17,6 @@ RUN npm install
 
 COPY . .
 
-ARG OIDC_DOMAIN
-ARG OIDC_CLIENT_ID
 RUN ./setup-oidc.sh
 
 RUN npm run build
