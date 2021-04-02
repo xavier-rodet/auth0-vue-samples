@@ -27,6 +27,11 @@ To do this, first copy `auth_config.json.example` into a new file in the same fo
 }
 ```
 
+NOTE: do create this file at build time through environment variables just run:
+```bash
+export OIDC_DOMAIN=xxxxxxx.auth0.com OIDC_CLIENT_ID=myclientid && ./setup-oidc.sh
+```
+
 ### Compiles and hot-reloads for development
 
 ```bash
