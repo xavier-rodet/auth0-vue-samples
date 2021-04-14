@@ -10,7 +10,7 @@ export const getInstance = () => instance;
 
 export const useAuth0 = ({
   onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
-  redirectUri = window.location.origin,
+  redirectUri = window.location.origin + process.env.BASE_URL,
   ...options
 }) => {
   if (instance) return instance;
@@ -23,7 +23,7 @@ export const useAuth0 = ({
         user: {},
         auth0Client: null,
         popupOpen: false,
-        error: null
+        error: null,
       };
     },
     methods: {
@@ -69,13 +69,13 @@ export const useAuth0 = ({
       },
       logout(o) {
         return this.auth0Client.logout(o);
-      }
+      },
     },
     async created() {
       this.auth0Client = await createAuth0Client({
         ...options,
         client_id: options.clientId,
-        redirect_uri: redirectUri
+        redirect_uri: redirectUri,
       });
 
       try {
@@ -94,7 +94,7 @@ export const useAuth0 = ({
         this.user = await this.auth0Client.getUser();
         this.loading = false;
       }
-    }
+    },
   });
 
   return instance;
@@ -103,5 +103,5 @@ export const useAuth0 = ({
 export const Auth0Plugin = {
   install(Vue, options) {
     Vue.prototype.$auth = useAuth0(options);
-  }
+  },
 };

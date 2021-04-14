@@ -5,8 +5,8 @@ services:
     build:
       context: .
       args:
-        - BASE_URL=/test
-        - OIDC_DOMAIN=xxxxxxx.auth0.com
-        - OIDC_CLIENT_ID=xxxxxxxxx
+        # - BASE_URL=/custom-path
+        # - OIDC_DOMAIN=xxxxxxx.auth0.com
+        # - OIDC_CLIENT_ID=xxxxxxxxx
     ports:
       - 3000:3000
